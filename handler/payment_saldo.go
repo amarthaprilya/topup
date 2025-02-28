@@ -33,7 +33,7 @@ func NewPaymentSaldoHandler(paymentSaldoService service.ServicePaymentSaldo, aut
 // @Success 200 {object} entity.DoPayment "Successful payment response"
 // @Failure 400 {object} map[string]interface{} "Invalid request payload"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/payment/{id} [post]
+// @Router /api/paymentsaldo/{id} [post]
 func (h *paymentSaldoHandler) DoPaymentSaldo(c *gin.Context) {
 	makePaymentID := c.Param("id")
 
@@ -66,7 +66,7 @@ func (h *paymentSaldoHandler) DoPaymentSaldo(c *gin.Context) {
 // @Success 200 {string} string "top up was successful"
 // @Failure 400 {object} map[string]interface{} "Invalid request payload"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/payment/notification [post]
+// @Router /api/paymentsaldo [post]
 func (h *paymentSaldoHandler) GetPaymentSaldoNotification(c *gin.Context) {
 	var input *entity.MidtransNotificationRequest
 	if err := c.ShouldBindJSON(&input); err != nil {

@@ -7,7 +7,7 @@
     },
     "host": "rental-camera-6a4d1d4fd45f.herokuapp.com",
     "paths": {
-        "/api/bookings": {
+        "/api/booking": {
             "get": {
                 "description": "Retrieve a list of all bookings.",
                 "produces": [
@@ -94,7 +94,7 @@
                 }
             }
         },
-        "/api/bookings/{id}": {
+        "/api/booking/{id}": {
             "get": {
                 "description": "Retrieve a booking by its ID.",
                 "produces": [
@@ -439,7 +439,7 @@
                 }
             }
         },
-        "/api/payment/notification": {
+        "/api/paymentsaldo": {
             "post": {
                 "description": "Handle the notification from Midtrans regarding the top-up payment and update the payment status accordingly.",
                 "consumes": [
@@ -487,7 +487,7 @@
                 }
             }
         },
-        "/api/payment/{id}": {
+        "/api/paymentsaldo/{id}": {
             "post": {
                 "security": [
                     {
@@ -554,7 +554,7 @@
                 }
             }
         },
-        "/api/product": {
+        "/api/products": {
             "get": {
                 "description": "Retrieve all products",
                 "produces": [
@@ -648,7 +648,7 @@
                 }
             }
         },
-        "/api/product/{id}": {
+        "/api/products/{id}": {
             "get": {
                 "description": "Retrieve a specific product using its ID",
                 "produces": [

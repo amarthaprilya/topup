@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/bookings": {
+        "/api/booking": {
             "get": {
                 "description": "Retrieve a list of all bookings.",
                 "produces": [
@@ -102,7 +102,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/bookings/{id}": {
+        "/api/booking/{id}": {
             "get": {
                 "description": "Retrieve a booking by its ID.",
                 "produces": [
@@ -447,7 +447,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/payment/notification": {
+        "/api/paymentsaldo": {
             "post": {
                 "description": "Handle the notification from Midtrans regarding the top-up payment and update the payment status accordingly.",
                 "consumes": [
@@ -495,7 +495,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/payment/{id}": {
+        "/api/paymentsaldo/{id}": {
             "post": {
                 "security": [
                     {
@@ -562,7 +562,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/product": {
+        "/api/products": {
             "get": {
                 "description": "Retrieve all products",
                 "produces": [
@@ -656,7 +656,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/product/{id}": {
+        "/api/products/{id}": {
             "get": {
                 "description": "Retrieve a specific product using its ID",
                 "produces": [

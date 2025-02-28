@@ -171,7 +171,7 @@ info:
   description: Sweager service API in Go using Gin framework
   title: Sweager Midtrans API
 paths:
-  /api/bookings:
+  /api/booking:
     get:
       description: Retrieve a list of all bookings.
       produces:
@@ -230,7 +230,7 @@ paths:
       summary: Create a new booking
       tags:
       - Bookings
-  /api/bookings/{id}:
+  /api/booking/{id}:
     delete:
       description: Delete a booking by its ID.
       parameters:
@@ -460,7 +460,40 @@ paths:
       summary: Update category
       tags:
       - Categories
-  /api/payment/{id}:
+  /api/paymentsaldo:
+    post:
+      consumes:
+      - application/json
+      description: Handle the notification from Midtrans regarding the top-up payment
+        and update the payment status accordingly.
+      parameters:
+      - description: Midtrans notification payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entity.MidtransNotificationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: top up was successful
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Process payment notification
+      tags:
+      - PaymentSaldo
+  /api/paymentsaldo/{id}:
     post:
       consumes:
       - application/json
@@ -505,40 +538,7 @@ paths:
       summary: Process a top-up payment
       tags:
       - PaymentSaldo
-  /api/payment/notification:
-    post:
-      consumes:
-      - application/json
-      description: Handle the notification from Midtrans regarding the top-up payment
-        and update the payment status accordingly.
-      parameters:
-      - description: Midtrans notification payload
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/entity.MidtransNotificationRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: top up was successful
-          schema:
-            type: string
-        "400":
-          description: Invalid request payload
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Process payment notification
-      tags:
-      - PaymentSaldo
-  /api/product:
+  /api/products:
     get:
       description: Retrieve all products
       produces:
@@ -601,7 +601,7 @@ paths:
       summary: Create a new product
       tags:
       - Products
-  /api/product/{id}:
+  /api/products/{id}:
     delete:
       description: Delete a product by ID
       parameters:

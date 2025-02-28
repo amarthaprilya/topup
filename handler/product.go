@@ -31,7 +31,7 @@ func NewProductHandler(service service.ServiceProduct) *productHandler {
 // @Failure 400 {object} map[string]interface{} "Invalid request"
 // @Failure 422 {object} map[string]interface{} "Validation error"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/product [post]
+// @Router /api/products [post]
 func (h *productHandler) CreateProduct(c *gin.Context) {
 	var input input.ProductInput
 
@@ -68,7 +68,7 @@ func (h *productHandler) CreateProduct(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid request"
 // @Failure 422 {object} map[string]interface{} "Validation error"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/product/{id} [put]
+// @Router /api/products/{id} [put]
 func (h *productHandler) UpdateProduct(c *gin.Context) {
 	var input input.ProductInput
 
@@ -102,7 +102,7 @@ func (h *productHandler) UpdateProduct(c *gin.Context) {
 // @Success 200 {object} map[string]interface{} "List of products"
 // @Failure 400 {object} map[string]interface{} "Error retrieving products"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/product [get]
+// @Router /api/products [get]
 func (h *productHandler) GetAllProduct(c *gin.Context) {
 	products, err := h.productService.GetProducts()
 	if err != nil {
@@ -125,7 +125,7 @@ func (h *productHandler) GetAllProduct(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid request"
 // @Failure 404 {object} map[string]interface{} "Product not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/product/{id} [get]
+// @Router /api/products/{id} [get]
 func (h *productHandler) GetProduct(c *gin.Context) {
 	idString := c.Param("id")
 	id, _ := strconv.Atoi(idString)
@@ -153,7 +153,7 @@ func (h *productHandler) GetProduct(c *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid request"
 // @Failure 404 {object} map[string]interface{} "Product not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/product/{id} [delete]
+// @Router /api/products/{id} [delete]
 func (h *productHandler) DeleteProduct(c *gin.Context) {
 	idString := c.Param("id")
 	id, _ := strconv.Atoi(idString)

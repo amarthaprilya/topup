@@ -30,7 +30,7 @@ func NewBookingHandler(bookingService service.ServiceBooking) *BookingHandler {
 // @Success 201 {object} map[string]interface{} "Booking successfully created"
 // @Failure 400 {object} map[string]interface{} "Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/bookings [post]
+// @Router /api/booking [post]
 func (h *BookingHandler) CreateBooking(c *gin.Context) {
 	var bookingInput input.BookingInput
 
@@ -58,7 +58,7 @@ func (h *BookingHandler) CreateBooking(c *gin.Context) {
 // @Tags Bookings
 // @Success 200 {object} map[string]interface{} "List of bookings"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/bookings [get]
+// @Router /api/booking [get]
 func (h *BookingHandler) GetAllBookings(c *gin.Context) {
 	bookings, err := h.bookingService.GetAllBookings()
 	if err != nil {
@@ -77,7 +77,7 @@ func (h *BookingHandler) GetAllBookings(c *gin.Context) {
 // @Param id path int true "Booking ID"
 // @Success 200 {object} map[string]interface{} "Booking details"
 // @Failure 404 {object} map[string]interface{} "Booking not found"
-// @Router /api/bookings/{id} [get]
+// @Router /api/booking/{id} [get]
 func (h *BookingHandler) GetBookingById(c *gin.Context) {
 	getID := c.Param("id")
 	param, _ := strconv.Atoi(getID)
@@ -100,7 +100,7 @@ func (h *BookingHandler) GetBookingById(c *gin.Context) {
 // @Param id path int true "Booking ID"
 // @Success 200 {object} map[string]interface{} "Booking deleted successfully"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/bookings/{id} [delete]
+// @Router /api/booking/{id} [delete]
 func (h *BookingHandler) DeleteBooking(c *gin.Context) {
 	getID := c.Param("id")
 	param, _ := strconv.Atoi(getID)

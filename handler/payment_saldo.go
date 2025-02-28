@@ -20,7 +20,20 @@ func NewPaymentSaldoHandler(paymentSaldoService service.ServicePaymentSaldo, aut
 	return &paymentSaldoHandler{paymentSaldoService, authService}
 }
 
-// will be called by user through payment endpoint
+// DoPaymentSaldo godoc
+// @Summary Process a top-up payment
+// @Description Process a payment for a top-up transaction using the provided payment details and payment ID from the URL.
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Tags PaymentSaldo
+// @Param id path string true "Top-Up Payment ID"
+// @Param Authorization header string true "Bearer token"
+// @Param body body input.SubmitPaymentRequest true "Payment details"
+// @Success 200 {object} entity.DoPayment "Successful payment response"
+// @Failure 400 {object} map[string]interface{} "Invalid request payload"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /api/payment/{id} [post]
 func (h *paymentSaldoHandler) DoPaymentSaldo(c *gin.Context) {
 	makePaymentID := c.Param("id")
 
@@ -31,7 +44,7 @@ func (h *paymentSaldoHandler) DoPaymentSaldo(c *gin.Context) {
 	}
 
 	currentUser := c.MustGet("currentUser").(*entity.User)
-	//ini inisiasi userID yang mana ingin mendapatkan id si user
+	// Inisiasi userID dari current user
 	getUserId := currentUser.ID
 
 	resp, err := h.paymentSaldoService.DoPaymentSaldo(req, makePaymentID, getUserId)
@@ -40,14 +53,21 @@ func (h *paymentSaldoHandler) DoPaymentSaldo(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, (resp))
+	c.JSON(http.StatusOK, resp)
 }
 
+// GetPaymentSaldoNotification godoc
+// @Summary Process payment notification
+// @Description Handle the notification from Midtrans regarding the top-up payment and update the payment status accordingly.
+// @Accept json
+// @Produce json
+// @Tags PaymentSaldo
+// @Param body body entity.MidtransNotificationRequest true "Midtrans notification payload"
+// @Success 200 {string} string "top up was successful"
+// @Failure 400 {object} map[string]interface{} "Invalid request payload"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /api/payment/notification [post]
 func (h *paymentSaldoHandler) GetPaymentSaldoNotification(c *gin.Context) {
-	// orderID := c.Param("order_id")
-
-	// params, err := strconv.Atoi(orderID)
-
 	var input *entity.MidtransNotificationRequest
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request payload"})
@@ -62,9 +82,4 @@ func (h *paymentSaldoHandler) GetPaymentSaldoNotification(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, "top up was successful")
-
-	//1. get order data from db
-	//2. check request transaction_status
-	//3. map transaction_status to db payment status
-	//4. update db payment status
 }

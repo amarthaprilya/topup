@@ -18,6 +18,19 @@ func NewBookingHandler(bookingService service.ServiceBooking) *BookingHandler {
 	return &BookingHandler{bookingService}
 }
 
+// CreateBooking godoc
+// @Summary Create a new booking
+// @Description Create a booking for the current user with the provided booking details.
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Tags Bookings
+// @Param Authorization header string true "Bearer token"
+// @Param booking body input.BookingInput true "Booking details"
+// @Success 201 {object} map[string]interface{} "Booking successfully created"
+// @Failure 400 {object} map[string]interface{} "Invalid input"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /api/bookings [post]
 func (h *BookingHandler) CreateBooking(c *gin.Context) {
 	var bookingInput input.BookingInput
 
@@ -26,7 +39,7 @@ func (h *BookingHandler) CreateBooking(c *gin.Context) {
 		return
 	}
 	currentUser := c.MustGet("currentUser").(*entity.User)
-	//ini inisiasi userID yang mana ingin mendapatkan id si user
+	// Inisiasi userID dari current user
 	getUserId := currentUser.ID
 
 	newBooking, err := h.bookingService.CreateBooking(getUserId, bookingInput)
@@ -38,6 +51,14 @@ func (h *BookingHandler) CreateBooking(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": newBooking})
 }
 
+// GetAllBookings godoc
+// @Summary Get all bookings
+// @Description Retrieve a list of all bookings.
+// @Produce json
+// @Tags Bookings
+// @Success 200 {object} map[string]interface{} "List of bookings"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /api/bookings [get]
 func (h *BookingHandler) GetAllBookings(c *gin.Context) {
 	bookings, err := h.bookingService.GetAllBookings()
 	if err != nil {
@@ -48,6 +69,15 @@ func (h *BookingHandler) GetAllBookings(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": bookings})
 }
 
+// GetBookingById godoc
+// @Summary Get booking by ID
+// @Description Retrieve a booking by its ID.
+// @Produce json
+// @Tags Bookings
+// @Param id path int true "Booking ID"
+// @Success 200 {object} map[string]interface{} "Booking details"
+// @Failure 404 {object} map[string]interface{} "Booking not found"
+// @Router /api/bookings/{id} [get]
 func (h *BookingHandler) GetBookingById(c *gin.Context) {
 	getID := c.Param("id")
 	param, _ := strconv.Atoi(getID)
@@ -61,31 +91,16 @@ func (h *BookingHandler) GetBookingById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": booking})
 }
 
-// func (h *BookingHandler) UpdateBooking(c *gin.Context) {
-// 	getID := c.Param("id")
-// 	param, _ := strconv.Atoi(getID)
-// 	var bookingInput input.BookingInput
-
-// 	if err := c.ShouldBindJSON(&bookingInput); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-// 		return
-// 	}
-
-// 	updatedBooking, err := h.bookingService.UpdateBooking(id, entity.Booking{
-// 		FirstDateRent: bookingInput.FirstDateRent,
-// 		LastDateRent:  bookingInput.LastDateRent,
-// 		ProductID:     bookingInput.ProductID,
-// 		UserID:        bookingInput.UserID,
-// 	})
-
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"data": updatedBooking})
-// }
-
+// DeleteBooking godoc
+// @Summary Delete booking
+// @Description Delete a booking by its ID.
+// @Produce json
+// @Security BearerAuth
+// @Tags Bookings
+// @Param id path int true "Booking ID"
+// @Success 200 {object} map[string]interface{} "Booking deleted successfully"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /api/bookings/{id} [delete]
 func (h *BookingHandler) DeleteBooking(c *gin.Context) {
 	getID := c.Param("id")
 	param, _ := strconv.Atoi(getID)

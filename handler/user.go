@@ -25,7 +25,7 @@ func NewUserHandler(userService service.Service, authService auth.Service) *user
 // @Accept json
 // @Produce json
 // @Tags Users
-// @Param body body user.RegisterUserInput true "User registration details"
+// @Param body body input.RegisterUserInput true "User registration details"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 409 {object} map[string]interface{}
@@ -77,7 +77,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Tags Users
-// @Param body body user.LoginInput true "User login credentials"
+// @Param body body input.LoginInput true "User login credentials"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -145,7 +145,7 @@ func (h *userHandler) DeletedUser(c *gin.Context) {
 // @Produce json
 // @Tags Users
 // @Param slug path string true "User Slug"
-// @Param body body user.UpdateUserInput true "User information for update"
+// @Param body body input.UpdateUserInput true "User information for update"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 422 {object} map[string]interface{}
@@ -175,5 +175,3 @@ func (h *userHandler) UpdateUser(c *gin.Context) {
 	response := helper.APIresponse(http.StatusOK, user)
 	c.JSON(http.StatusOK, response)
 }
-
-//create folder

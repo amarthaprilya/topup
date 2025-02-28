@@ -8,6 +8,7 @@ type Booking struct {
 	FirstDateRent time.Time
 	LastDateRent  time.Time
 	TotalPrice    int
+	Quantity      int
 	ProductID     int
 	Products      Products `gorm:"foreignKey:ProductID"`
 	UserID        int

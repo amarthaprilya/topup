@@ -61,7 +61,7 @@ func (h *paymentSaldoHandler) GetPaymentSaldoNotification(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, "succes")
+	c.JSON(http.StatusOK, "top up was successful")
 
 	//1. get order data from db
 	//2. check request transaction_status

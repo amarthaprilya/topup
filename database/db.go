@@ -30,7 +30,7 @@ func InitDb() (*gorm.DB, error) {
 	// }
 
 	// dsn := "root:@tcp(127.0.0.1:3306)/camera-rent?charset=utf8mb4&parseTime=True&loc=Local"
-	dsn := "freedb_customeruser:pHQQcE@ttPyB#5Z@tcp(sql.freedb.tech:3306)/freedb_customerdb?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "freedb_camera-user:&*V$6MTbc%c7JE6@tcp(sql.freedb.tech:3306)/freedb_camera-rent?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("DB Connection Error:", err)

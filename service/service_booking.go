@@ -38,8 +38,7 @@ func (s *serviceBooking) CreateBooking(userID int, input input.BookingInput) (*e
 		return nil, errors.New("productId tidak boleh kosong")
 	}
 
-	// Cek apakah kategori ada di database
-	price, err := s.repositoryProduct.FindById(input.ProductID)
+	product, err := s.repositoryProduct.FindById(input.ProductID)
 	if err != nil {
 		return nil, errors.New("product tidak ditemukan")
 	}
@@ -49,22 +48,36 @@ func (s *serviceBooking) CreateBooking(userID int, input input.BookingInput) (*e
 		return nil, err
 	}
 
-	booking := &entity.Booking{}
+	daysRent := int(input.LastDateRent.Sub(input.FirstDateRent).Hours() / 24)
 
-	booking.ProductID = input.ProductID
-	booking.UserID = findUser.ID
-	booking.DaysRent = int(input.LastDateRent.Sub(input.FirstDateRent).Hours() / 24)
-	booking.FirstDateRent = input.FirstDateRent
-	booking.LastDateRent = input.LastDateRent
-	booking.TotalPrice = price.RentCost * booking.DaysRent
+	totalPrice := product.RentCost * daysRent
 
-	new, err := s.repository.Save(booking)
+	if findUser.Saldo < totalPrice {
+		return nil, errors.New("saldo tidak mencukupi untuk menyewa produk ini")
+	}
+
+	booking := &entity.Booking{
+		ProductID:     input.ProductID,
+		UserID:        findUser.ID,
+		DaysRent:      daysRent,
+		FirstDateRent: input.FirstDateRent,
+		LastDateRent:  input.LastDateRent,
+		TotalPrice:    totalPrice,
+	}
+
+	newBooking, err := s.repository.Save(booking)
 	if err != nil {
 		return nil, err
 	}
 
-	return new, nil
+	findUser.Saldo -= totalPrice
 
+	_, err = s.repositoryUser.Update(findUser)
+	if err != nil {
+		return nil, errors.New("gagal memperbarui saldo user setelah booking")
+	}
+
+	return newBooking, nil
 }
 
 // func (s *serviceBooking) UpdateBooking(ID int, input entity.Booking) (*entity.Booking, error) {

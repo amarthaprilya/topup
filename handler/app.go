@@ -91,7 +91,7 @@ func StartApp() {
 	bookingHandler := NewBookingHandler(bookingService)
 
 	apiBooking := router.Group("/api/booking")
-	apiBooking.POST("/", middleware.AuthMiddleware(authService, userService), bookingHandler.CreateBooking)
+	apiBooking.POST("/rent-product", middleware.AuthMiddleware(authService, userService), bookingHandler.CreateBooking)
 	apiBooking.GET("/:id", bookingHandler.GetBookingById)
 	// apiBooking.GET("/booking-report", bookingHandler.GetBookingByUserID)
 	apiBooking.GET("/booking-report", bookingHandler.GetAllBookings)

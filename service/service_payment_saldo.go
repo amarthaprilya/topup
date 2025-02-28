@@ -127,23 +127,36 @@ func mapChargeToResponseDonation(resp *coreapi.ChargeResponse) (*entity.DoPaymen
 }
 
 func (s *servicePaymentSaldo) HandleNotificationPaymentDonation(req *entity.MidtransNotificationRequest) error {
+	// Cari transaksi pembayaran berdasarkan TransactionID
 	findPayment, err := s.repositoryPaymentSaldo.FindByTransactionID(req.TransactionID)
 	if err != nil {
 		return err
 	}
 
+	// Cari user berdasarkan UserID dari transaksi
+	user, err := s.repositoryUser.FindById(findPayment.UserID)
+	if err != nil {
+		return fmt.Errorf("failed to fetch user: %w", err)
+	}
+
 	switch req.TransactionStatus {
-	case "settlement":
-		// Ubah status pembayaran menjadi 'settled'
+	case "settlement", "capture":
 		findPayment.StatusPayment = "settled"
+
+		user.Saldo += findPayment.TopUps.Amount
+
+		if _, err := s.repositoryUser.Update(user); err != nil {
+			return fmt.Errorf("failed to update user saldo: %w", err)
+		}
+
 	default:
-		// Ubah status pembayaran sesuai dengan status yang diterima
 		findPayment.StatusPayment = req.TransactionStatus
 	}
 
 	_, err = s.repositoryPaymentSaldo.Update(findPayment)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to update payment status: %w", err)
 	}
+
 	return nil
 }

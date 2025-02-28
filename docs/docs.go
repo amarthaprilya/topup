@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/booking": {
+        "/api/booking/booking-report": {
             "get": {
                 "description": "Retrieve a list of all bookings.",
                 "produces": [
@@ -41,7 +41,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/booking/rent-product": {
             "post": {
                 "security": [
                     {

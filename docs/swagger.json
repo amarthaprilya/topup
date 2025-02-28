@@ -7,7 +7,7 @@
     },
     "host": "rental-camera-6a4d1d4fd45f.herokuapp.com",
     "paths": {
-        "/api/booking": {
+        "/api/booking/booking-report": {
             "get": {
                 "description": "Retrieve a list of all bookings.",
                 "produces": [
@@ -33,7 +33,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/booking/rent-product": {
             "post": {
                 "security": [
                     {

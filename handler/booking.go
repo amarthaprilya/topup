@@ -30,7 +30,7 @@ func NewBookingHandler(bookingService service.ServiceBooking) *BookingHandler {
 // @Success 201 {object} map[string]interface{} "Booking successfully created"
 // @Failure 400 {object} map[string]interface{} "Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/booking [post]
+// @Router /api/booking/rent-product [post]
 func (h *BookingHandler) CreateBooking(c *gin.Context) {
 	var bookingInput input.BookingInput
 
@@ -58,7 +58,7 @@ func (h *BookingHandler) CreateBooking(c *gin.Context) {
 // @Tags Bookings
 // @Success 200 {object} map[string]interface{} "List of bookings"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /api/booking [get]
+// @Router /api/booking/booking-report [get]
 func (h *BookingHandler) GetAllBookings(c *gin.Context) {
 	bookings, err := h.bookingService.GetAllBookings()
 	if err != nil {

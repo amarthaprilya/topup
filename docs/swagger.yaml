@@ -165,7 +165,7 @@ definitions:
       username:
         type: string
     type: object
-host: https://rental-camera-6a4d1d4fd45f.herokuapp.com
+host: rental-camera-6a4d1d4fd45f.herokuapp.com
 info:
   contact: {}
   description: Sweager service API in Go using Gin framework

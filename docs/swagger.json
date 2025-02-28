@@ -5,7 +5,7 @@
         "title": "Sweager Midtrans API",
         "contact": {}
     },
-    "host": "https://rental-camera-6a4d1d4fd45f.herokuapp.com",
+    "host": "rental-camera-6a4d1d4fd45f.herokuapp.com",
     "paths": {
         "/api/bookings": {
             "get": {
